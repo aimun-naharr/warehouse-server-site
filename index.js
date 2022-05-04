@@ -40,6 +40,21 @@ async function run(){
           const result= await productCollection.deleteOne(query)
           res.send(result)
         })
+        app.put('/quantity/:id', async(req,res)=>{
+          const id =req.params.id
+          let quantity=req.body.quantity
+          
+          const  query ={_id:ObjectId(id)}
+          const options = { upsert: true }
+          const updateDoc = {
+            $set: {
+             quantity: quantity-1
+            }
+
+          }
+          const result=await productCollection.updateOne(query, updateDoc, options)
+          res.send(result)
+        })
     }
     finally{
 
