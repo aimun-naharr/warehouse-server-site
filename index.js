@@ -55,6 +55,11 @@ async function run(){
           const result=await productCollection.updateOne(query, updateDoc, options)
           res.send(result)
         })
+        app.post('/login', async(req,res)=>{
+          const email=req.body.email
+          const googleEmail=req.body.googleEmail
+          console.log(email, googleEmail)
+        })
     }
     finally{
 
