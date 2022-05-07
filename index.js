@@ -55,10 +55,27 @@ async function run(){
           const result=await productCollection.updateOne(query, updateDoc, options)
           res.send(result)
         })
+        app.put('/addQuantity/:id', async(req,res)=>{
+          const id =req.params.id
+          const addQuantity= req.body.addQuantity
+          const quantity=parseInt(req.body.quantity)
+          
+          const  query ={_id:ObjectId(id)}
+          const options = { upsert: true }
+          const sum= quantity+addQuantity
+          const updateDoc = {
+            $set: {
+             quantity: sum
+            }
+
+          }
+          const result=await productCollection.updateOne(query, updateDoc, options)
+          res.send(result)
+        })
         app.post('/login', async(req,res)=>{
           const email=req.body.email
           const googleEmail=req.body.googleEmail
-          console.log(email, googleEmail)
+          
         })
     }
     finally{
