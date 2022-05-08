@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 5000
 require('dotenv').config()
+const jwt = require('jsonwebtoken');
 
 app.use(cors())
 app.use(express.json())
@@ -19,7 +20,7 @@ async function run(){
         const productCollection=client.db('Bunch').collection('fruits')
         app.post('/uploadpd', async(req,res)=>{
             const product= req.body
-            console.log(product)
+            
             const result= await productCollection.insertOne(product)
             res.send({success: product})
         })
@@ -73,9 +74,17 @@ async function run(){
           res.send(result)
         })
         app.post('/login', async(req,res)=>{
-          const email=req.body.email
-          const googleEmail=req.body.googleEmail
-          
+          const email=req.body
+          var token = jwt.sign(email, process.env.ACCESS_TOKEN);
+         res.send({token})
+
+        })
+        app.post('/login', async(req,res)=>{
+          const googleEmail=req.body
+          console.log(googleEmail)
+          var token = jwt.sign(email, process.env.ACCESS_TOKEN);
+         res.send({token})
+
         })
     }
     finally{
